@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #080808;
+  font-family: 'Courier New', monospace;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #b0b0b0;
+}
+
+.login-box {
+  text-align: center;
+  padding: 40px;
+  border: 1px solid #222;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  max-width: 400px;
+  width: 90%;
+}
+
+.prompt {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.counter-badge {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  color: #555;
+  margin-top: -12px;
+  margin-bottom: 22px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.counter-badge.progress {
+  color: #eab308;
+}
+
+.counter-badge.complete {
+  color: #4ade80;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  background: #000;
+  border: 1px solid #333;
+  padding: 12px;
+  font-size: 1.4rem;
+  color: #e0e0e0;
+  text-align: center;
+  letter-spacing: 8px;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: #555;
+}
+
+.error-msg {
+  height: 20px;
+  margin-top: 15px;
+  font-size: 0.8rem;
+  color: #990000;
+  letter-spacing: 1px;
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+  border-color: #990000 !important;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+.links-container {
+  display: none;
+  margin-top: 20px;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.terminal-link {
+  display: block;
+  padding: 12px 14px;
+  background-color: #0c1710;
+  border: 1px solid #1e5e2e;
+  color: #4ade80;
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.terminal-link:hover {
+  background-color: #14301d;
+  border-color: #4ade80;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
+  transform: translateY(-1px);
+}
+
+.reset-btn {
+  display: none;
+  margin: 18px auto 0 auto;
+  padding: 8px 14px;
+  background-color: transparent;
+  border: 1px dashed #444;
+  color: #777;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.reset-btn:hover {
+  border-color: #4ade80;
+  color: #4ade80;
+  background-color: #0d1a12;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

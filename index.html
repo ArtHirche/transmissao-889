@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACESSO RESTRITO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-box">
+        <div class="prompt">AUTENTICAÇÃO</div>
+        <div id="counter" class="counter-badge">CÓDIGO [ 0/2 ]</div>
+        <input type="text" id="passcode" maxlength="3" autofocus autocomplete="off" placeholder="---">
+        <div id="error" class="error-msg"></div>
+
+        <div id="links" class="links-container"></div>
+        <button id="reset-btn" class="reset-btn">[ ↺ NOVO ACESSO ]</button>
+    </div>
+
+    <script>
+        const input = document.getElementById('passcode');
+        const error = document.getElementById('error');
+        const links = document.getElementById('links');
+        const resetBtn = document.getElementById('reset-btn');
+        const counterEl = document.getElementById('counter');
+
+        const unlockedCodes = new Set();
+
+        const DATABASE = {
+            "889": {
+                title: "ACESSO 889 PERMITIDO // ANOMALIAS ACÚSTICAS (NOAA)",
+                files: [
+                    { label: "ARQUIVO 01: ÁUDIO // BLOOP_REAL.OGG", url: "https://commons.wikimedia.org/wiki/File:Bloop_real.ogg" },
+                    { label: "ARQUIVO 02: DOSSIÊ // BLOOP (WIKIPÉDIA)", url: "https://pt.wikipedia.org/wiki/Bloop" },
+                    { label: "ARQUIVO 03: REGISTRO NOAA // SOM \"JULIA\" (1999)", url: "https://www.pmel.noaa.gov/acoustics/sounds/julia.html" },
+                    { label: "ARQUIVO 04: REGISTRO NOAA // SOM \"UPSWEEP\" (1991)", url: "https://www.pmel.noaa.gov/acoustics/sounds/upsweep.html" }
+                ]
+            },
+            "038": {
+                title: "ACESSO 038 PERMITIDO // CARTOGRAFIA E VIGILÂNCIA NAVAL",
+                files: [
+                    { label: "MAPA 01: NOAA BATHYMETRY // RELEVO 3D SUBMARINO", url: "https://www.ncei.noaa.gov/maps/bathymetry/" },
+                    { label: "MAPA 02: MARINETRAFFIC // TRÁFEGO NAVAL AO VIVO", url: "https://www.marinetraffic.com/" },
+                    { label: "LOCALIZAÇÃO: COORDENADAS 50°S 100°W (MAPS)", url: "https://maps.google.com/?q=-50,-100" },
+                    { label: "ARQUIVO 05: POLO DE INACESSIBILIDADE // PONTO NEMO", url: "https://pt.wikipedia.org/wiki/Ponto_Nemo" }
+                ]
+            }
+        };
+
+        function updateCounter() {
+            const count = unlockedCodes.size;
+            counterEl.className = 'counter-badge';
+            if (count === 0) {
+                counterEl.textContent = 'CÓDIGO [ 0/2 ]';
+            } else if (count === 1) {
+                counterEl.classList.add('progress');
+                counterEl.textContent = 'CÓDIGO [ 1/2 ]';
+            } else if (count >= 2) {
+                counterEl.classList.add('complete');
+                counterEl.textContent = 'CÓDIGO [ 2/2 ] // COMPLETO';
+            }
+        }
+
+        function showAccess(code) {
+            unlockedCodes.add(code);
+            updateCounter();
+
+            const data = DATABASE[code];
+            error.style.color = "#2b8a3e";
+            error.textContent = data.title;
+            input.disabled = true;
+            input.style.borderColor = "#2b8a3e";
+            input.style.color = "#2b8a3e";
+
+            links.innerHTML = '';
+            data.files.forEach(file => {
+                const a = document.createElement('a');
+                a.href = file.url;
+                a.target = "_blank";
+                a.className = "terminal-link";
+                a.textContent = file.label;
+                links.appendChild(a);
+            });
+
+            links.style.display = 'flex';
+            resetBtn.style.display = 'block';
+        }
+
+        function resetTerminal() {
+            input.disabled = false;
+            input.value = '';
+            input.style.borderColor = '';
+            input.style.color = '';
+            error.textContent = '';
+            links.innerHTML = '';
+            links.style.display = 'none';
+            resetBtn.style.display = 'none';
+            input.focus();
+        }
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const value = input.value.trim();
+
+                if (DATABASE[value]) {
+                    showAccess(value);
+                } else {
+                    error.style.color = "#990000";
+                    error.textContent = "CÓDIGO INCORRETO // ACESSO NEGADO";
+                    input.classList.add('shake');
+                    setTimeout(() => input.classList.remove('shake'), 300);
+                    input.value = '';
+                }
+            }
+        });
+
+        resetBtn.addEventListener('click', resetTerminal);
+    </script>
+</body>
+
+</html>
